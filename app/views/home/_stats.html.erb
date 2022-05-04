@@ -1,0 +1,121 @@
+<div class="card">
+  <h3 class="card-header">System statistics</h3>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <h3 class="card-header">Employees by role</h3>
+          <div class="card-body">
+            <%= pie_chart User.group(:role).count, donut: true, legend: "left" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <h3 class="card-header">Devices by type</h3>
+          <div class="card-body">
+            <%= pie_chart Device.group(:device_type).count, donut: true, legend: "left" %>
+          </div>
+        </div>
+      </div>
+    </div><br/>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <h3 class="card-header">Reports in last week</h3>
+          <div class="card-body">
+            <%= column_chart [["Cleaning reports", CleaningReport.where("created_at >= ?", 1.week.ago.utc).count],
+                              ["Incident reports", IncidentReport.where("created_at >= ?", 1.week.ago.utc).count],
+                              ["Demand reports", DemandReport.where("created_at >= ?", 1.week.ago.utc).count]] %>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <h3 class="card-header">System in numbers</h3>
+          <div class="card-body text-center">
+            <div class="row">
+
+              <div class="col">
+                <div class="card">
+                  <h5  class="card-header alert-success">Employees</h5>
+                  <div class="card-body">
+                    <h1><%= User.count %></h1>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="card">
+                  <h5 class="card-header alert-warning">Devices</h5>
+                  <div class="card-body ">
+                    <h1><%= Device.count %></h1>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="card">
+                  <h5 class="card-header alert-primary">Reports</h5>
+                  <div class="card-body">
+                    <h1><%= CleaningReport.count + DemandReport.count + IncidentReport.count %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="card">
+                  <h5 class="card-header alert-primary">Inspections</h5>
+                  <div class="card-body">
+                    <h1><%= Inspection.count %></h1>
+                  </div>
+                </div>
+              </div>
+
+            </div><br/>
+            <div class="row">
+
+              <div class="col">
+                <div class="card">
+                  <h5 class="card-header alert-danger">Buildings</h5>
+                  <div class="card-body">
+                    <h1><%= Building.count %></h1>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="card">
+                  <h5 class="card-header alert-danger">Floors</h5>
+                  <div class="card-body">
+                    <h1><%= Floor.count %></h1>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="card">
+                  <h5 class="card-header alert-danger">Wards</h5>
+                  <div class="card-body">
+                    <h1><%= Ward.count %></h1>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="card danger">
+                  <h5 class="card-header alert-danger">Rooms</h5>
+                  <div class="card-body">
+                    <h1><%= Room.count %></h1>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
