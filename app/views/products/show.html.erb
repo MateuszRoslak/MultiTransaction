@@ -1,0 +1,19 @@
+<div class="container">
+  <% price = Stripe::Price.retrieve(@product.default_price) %>
+
+  <h1><%= @product.name %></h1>
+
+  <% if @product.images.present? %>
+    <%= image_tag(@product.images.first, class: "mx-auto d-block") %>
+  <% else %>
+    <span>No images</span>
+  <% end %>
+
+  <p class="card-text"><%= @product.description %></p>
+
+  <span class="text-muted">
+    <%= format_price(price.currency, price.unit_amount) %>
+  </span>
+
+
+</div>

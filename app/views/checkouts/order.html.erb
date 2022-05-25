@@ -1,0 +1,15 @@
+<div class="container">
+  <h1>Order</h1>
+  <h4>Your total was <%= format_price(@session.currency, @session.amount_total) %></h4>
+  <h4>Date of purchase: <%= format_timestamp_to_db(@payment_intent.created ) %></h4>
+  <h4>Status: <%= @payment_intent.status %></h4>
+  <br/>
+  <% @line_items.each do |item| %>
+    <h4><%= item.description %></h4>
+    <p><%= format_price(item.price.currency, item.price.unit_amount) %></p>
+    <% product = Stripe::Product.retrieve(item.price.product) %>
+    <% if product.images.present? %>
+      <%= image_tag(product.images.first, width: 300) %>
+    <% end %>
+  <% end %>
+</div>

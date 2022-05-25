@@ -1,0 +1,26 @@
+<div class="container">
+  <h1>Purchase history</h1>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col"/>
+      <th scope="col">Order amount</th>
+      <th scope="col">Date of purchase</th>
+      <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    <% @line_items.each_with_index do |item, index| %>
+      <tr>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= format_price(item.currency, item.amount) %></td>
+        <td><%= format_timestamp_to_db(item.created) %></td>
+        <td><%= item.status %></td>
+        <td><%= link_to "Show", order_checkout_path({payment_id: item.id}), class: "btn btn-success" %></td>
+      </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+</div>

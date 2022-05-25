@@ -1,0 +1,37 @@
+<div class="container">
+  <h1>Products</h1>
+
+  <% @products_list.each do |product| %>
+    <% price = Stripe::Price.retrieve(product.default_price) %>
+
+    <div class="card mb-3" style="max-width: 700px;">
+      <div class="row g-0">
+        <div class="col-md-4 text-center m-auto">
+          <% if product.images.present? %>
+            <%= image_tag(product.images.first, class: "img-fluid rounded-start") %>
+          <% else %>
+            <span>No images</span>
+          <% end %>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.name %></h5>
+            <p class="card-text"><%= product.description %></p>
+            <p class="card-text">
+              <small class="text-muted">
+                <%= format_price(price.currency, price.unit_amount) %>
+              </small>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-2 text-center m-auto">
+          <%= link_to "Show", product_path(product.id), class: "btn btn-primary" %>
+        </div>
+
+      </div>
+    </div>
+
+  <% end %>
+</div>
