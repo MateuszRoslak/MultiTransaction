@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_24_123357) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_25_125105) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,9 +20,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_24_123357) do
     t.string "city", null: false
     t.string "street", null: false
     t.string "building", null: false
-    t.string "apartment", null: false
+    t.string "apartment"
     t.string "zip_code", null: false
-    t.boolean "default", default: false
+    t.boolean "default", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
@@ -30,25 +30,46 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_24_123357) do
 
   create_table "cards", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "name"
-    t.string "card_code"
-    t.integer "card_type"
+    t.string "name", null: false
+    t.string "card_code", null: false
+    t.string "card_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
+  create_table "carts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_carts_on_product_id"
+    t.index ["user_id"], name: "index_carts_on_user_id"
+  end
+
+  create_table "product_discounts", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.integer "discount", default: 0, null: false
+    t.string "card_type", null: false
+    t.boolean "percent", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_discounts_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "price", null: false
+    t.integer "default_price", null: false
+    t.string "currency", null: false
+    t.text "description"
+    t.integer "quantity", default: 0, null: false
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "telephone", null: false
-    t.integer "balance", default: 0, null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -56,10 +77,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_24_123357) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "phone", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "wallets", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "balance", default: 0, null: false
+    t.string "currency", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_wallets_on_user_id"
+  end
+
   add_foreign_key "addresses", "users"
   add_foreign_key "cards", "users"
+  add_foreign_key "carts", "products"
+  add_foreign_key "carts", "users"
+  add_foreign_key "product_discounts", "products"
+  add_foreign_key "wallets", "users"
 end

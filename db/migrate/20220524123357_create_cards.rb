@@ -2,9 +2,9 @@ class CreateCards < ActiveRecord::Migration[7.0]
   def change
     create_table :cards do |t|
       t.references :user, null: false, foreign_key: true
-      t.string :name
-      t.string :card_code
-      t.integer :card_type
+      t.string :name, null: false
+      t.string :card_code, null: false
+      t.string :card_type, null: false
 
       t.timestamps
     end
