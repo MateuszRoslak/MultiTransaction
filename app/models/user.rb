@@ -6,8 +6,8 @@ class User < ApplicationRecord
 
   has_many :addresses, dependent: :destroy
   has_many :cards, dependent: :destroy
+  has_many :line_items, dependent: :destroy
 
-  has_one :cart, dependent: :destroy
   has_one :wallet, dependent: :destroy
 
   validates :first_name, :last_name, :phone, presence: true
