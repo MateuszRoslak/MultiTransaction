@@ -1,0 +1,40 @@
+<div class="container">
+  <h1>Products</h1>
+
+  <% @products.each do |product| %>
+
+    <div class="card mb-3" style="max-width: 800px;">
+      <div class="row g-0">
+        <div class="col-md-4 text-center m-auto">
+          <span>No images</span>
+        </div>
+
+        <div class="col-md-5">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.name %></h5>
+            <p class="card-text"><%= product.description %></p>
+            <p class="card-text">
+              <small class="text-muted">
+                <%= format_price(product.currency, product.default_price) %>
+              </small>
+              <small class="text-muted">
+                | Quantity available: <%= product.quantity %>
+              </small>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-2 text-center m-auto">
+          <%= link_to "Show", product_path(product.id), class: "btn btn-primary mb-2" %>
+          <%= button_to "Add to cart",
+                        add_to_cart_product_path(product.id),
+                        params: { product: { quantity: 1 } },
+                        method: :post, class: "btn btn-warning mb-2"
+          %>
+        </div>
+
+      </div>
+    </div>
+
+  <% end %>
+</div>
