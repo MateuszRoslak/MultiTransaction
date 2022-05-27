@@ -6,4 +6,7 @@ class LineItem < ApplicationRecord
 
   validates :quantity, presence: true
   validates :product, uniqueness: { scope: :user }
+
+  scope :total_value, -> { joins(:product).sum('line_items.quantity * products.default_price') }
+  scope :total_items, -> { sum(:quantity) }
 end

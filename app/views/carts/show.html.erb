@@ -1,41 +1,61 @@
 <div class="container">
-  <h1>Your Cart</h1>
 
-  <% unless @line_items.exists? %>
-    <h3>Your shopping cart is empty!</h3>
-  <% else %>
-    <% @line_items.each do |line_item| %>
-      <% product = line_item.product %>
 
-      <div class="card mb-3" style="max-width: 900px;">
-        <div class="row g-0">
-          <div class="col-md-3 text-center m-auto">
-            <span>No images</span>
-          </div>
+  <div class="card my-3">
+    <div class="card-header">
+      Your Cart
+    </div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <% unless @line_items.exists? %>
+          <h3>Your shopping cart is empty!</h3>
+        <% else %>
+          <p>Total value: <%= format_price(@line_items.first.product.currency, @line_items.total_value) %></p>
+          <span>Total items: <%= @line_items.total_items %></span>
+        <% end %>
+      </blockquote>
+    </div>
+  </div>
 
-          <div class="col-md-5">
-            <div class="card-body">
-              <h5 class="card-title"><%= product.name %></h5>
-              <p class="card-text"><%= product.description %></p>
-              <p class="card-text">
-                <small class="text-muted">
-                  <%= format_price(product.currency, get_line_item_price(line_item)) %>
-                </small>
-                <small class="text-muted">
-                  | Amount: <%= line_item.quantity %>
-                </small>
-              </p>
-            </div>
-          </div>
 
-          <div class="col-md-1 text-center m-auto">
-            <%= link_to "Show", product_path(product.id), class: "btn btn-primary mb-2" %>
-            <%= button_to "Delete", cart_path, params: { id: line_item.id }, method: :delete, class: "btn btn-danger mb-2" %>
-          </div>
+  <% @line_items.each do |line_item| %>
+    <% product = line_item.product %>
 
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-3 text-center m-auto">
+          <span>No images</span>
         </div>
-      </div>
 
-    <% end %>
+        <div class="col-md-5">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.name %></h5>
+            <p class="card-text"><%= product.description %></p>
+            <p class="card-text">
+              <small class="text-muted">
+                <%= format_price(product.currency, get_line_item_price(line_item)) %>
+              </small>
+              <small class="text-muted">
+                | Amount: <%= line_item.quantity %>
+              </small>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-2 text-center m-auto">
+          <%= form_with scope: :line_item, url: cart_path(id: line_item), method: :patch do |f| %>
+            <%= f.number_field :quantity, style: "width: 60px", class: "mb-2", value: line_item.quantity, in: 1..product.quantity %>
+            <%= f.submit 'Change amount', class: "btn btn-warning mb-2" %>
+          <% end %>
+        </div>
+
+        <div class="col-md-1 text-center m-auto">
+          <%= link_to "Show", product_path(product.id), class: "btn btn-primary mb-2" %>
+          <%= button_to "Delete", cart_path, params: { id: line_item.id }, method: :delete, class: "btn btn-danger mb-2" %>
+        </div>
+
+      </div>
+    </div>
+
   <% end %>
 </div>
