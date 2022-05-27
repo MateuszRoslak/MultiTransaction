@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProductDiscount < ApplicationRecord
   belongs_to :product
 
