@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLineItems < ActiveRecord::Migration[7.0]
   def change
     create_table :line_items do |t|
@@ -5,7 +7,7 @@ class CreateLineItems < ActiveRecord::Migration[7.0]
       t.references :product, null: false, foreign_key: true
       t.integer :quantity, null: false
 
-      t.index [:user_id, :product_id], unique: true
+      t.index %i[user_id product_id], unique: true
 
       t.timestamps
     end
