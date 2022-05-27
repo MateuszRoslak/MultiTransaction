@@ -1,0 +1,16 @@
+<div class="container">
+
+  <h1><%= @product.name %></h1>
+  <span>No images</span>
+
+  <p class="card-text"><%= @product.description %></p>
+
+  <span class="text-muted">
+    <%= format_price(@product.currency, @product.default_price) %>
+  </span>
+
+  <span class="text-muted">
+    | Amount: <%= @product.quantity %>
+  </span>
+
+</div>
