@@ -1,7 +1,8 @@
-class ProductsController < ApplicationController
+# frozen_string_literal: true
 
+class ProductsController < ApplicationController
   before_action :set_products, only: [:index]
-  before_action :set_product, only: [:show, :add_to_cart]
+  before_action :set_product, only: %i[show add_to_cart]
 
   def index; end
 
@@ -13,7 +14,7 @@ class ProductsController < ApplicationController
     if line_item.save
       flash[:notice] = "Successfully added #{@product.name} to the cart!"
     else
-      flash[:alert] = "The product is already in the cart"
+      flash[:alert] = 'The product is already in the cart'
     end
 
     redirect_to products_path
