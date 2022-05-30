@@ -13,5 +13,11 @@ Rails.application.routes.draw do
 
   resource :cart, only: [:show, :destroy, :update]
 
+  resource :checkout, only: [:create] do
+    collection do
+      get :success
+    end
+  end
+
   root 'pages#home'
 end

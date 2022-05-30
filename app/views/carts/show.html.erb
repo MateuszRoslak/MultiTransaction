@@ -6,14 +6,17 @@
       Your Cart
     </div>
     <div class="card-body">
-      <blockquote class="blockquote mb-0">
-        <% unless @line_items.exists? %>
-          <h3>Your shopping cart is empty!</h3>
-        <% else %>
-          <p>Total value: <%= format_price(@line_items.first.product.currency, @line_items.total_value) %></p>
-          <span>Total items: <%= @line_items.total_items %></span>
-        <% end %>
-      </blockquote>
+      <% unless @line_items.exists? %>
+        <h3>Your shopping cart is empty!</h3>
+      <% else %>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h3>Total value: <%= format_price(@line_items.first.product.currency, @line_items.total_value) %></h3>
+            <h4>Total items: <%= @line_items.total_items %></h4>
+          </div>
+          <%= button_to "Go to checkout", checkout_path, data: { turbo: false }, class: "btn btn-success" %>
+        </div>
+      <% end %>
     </div>
   </div>
 
