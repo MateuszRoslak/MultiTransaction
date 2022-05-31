@@ -6,11 +6,11 @@ module Payments
       include Dry::Transaction
 
       tee :params
-      tee :create_line_items
+      step :create_line_items
       try :create_session, catch: StandardError
 
-      def params(input)
-        @user = input.fetch(:user)
+      def params(user:)
+        @user = user
       end
 
       def create_line_items
@@ -26,6 +26,7 @@ module Payments
             },
           }
         end
+        @line_items.present? ? Success(@line_items) : Failure('Your shopping cart is empty')
       end
 
       def create_session
