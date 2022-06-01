@@ -5,5 +5,5 @@ class Card < ApplicationRecord
 
   validates :name, :card_code, :card_type, presence: true
 
-  enum card_type: %i[multisport ok_system], _prefix: true
+  #enum card_type: %i[multisport ok_system], _prefix: true
 end

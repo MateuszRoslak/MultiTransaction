@@ -3,6 +3,7 @@
 class LineItem < ApplicationRecord
   belongs_to :user
   belongs_to :product
+  belongs_to :product_discount, optional: true
 
   validates :quantity, presence: true
   validates :product, uniqueness: { scope: :user }

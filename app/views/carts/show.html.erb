@@ -1,6 +1,4 @@
 <div class="container">
-
-
   <div class="card my-3">
     <div class="card-header">
       Your Cart
@@ -37,6 +35,11 @@
               </small>
               <small class="text-muted">
                 | Amount: <%= line_item.quantity %>
+              </small>
+              <small>
+                <br/>
+                <%= line_item.product_discount&.discount_price %>
+                <%= line_item.product_discount&.card_type %>
               </small>
             </p>
           </div>
