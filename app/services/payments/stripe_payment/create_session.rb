@@ -1,16 +1,36 @@
 # frozen_string_literal: true
 
+require 'dry/matcher/result_matcher'
+
 module Payments
   module StripePayment
     class CreateSession < ApplicationService
-      include Dry::Transaction
+      class << self
+        include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
+      end
+      include Dry::Monads[:result, :do]
 
-      tee :params
-      step :create_line_items
-      try :create_session, catch: StandardError
-
-      def params(user:)
+      def initialize(user:)
+        super()
         @user = user
+      end
+
+      def call
+        yield create_customer
+        yield create_line_items
+        create_session
+      end
+
+      private
+
+      def create_customer
+        @customer = @user.customers.find_by(processor: :stripe)
+        unless @customer.present?
+          stripe_customer = Stripe::Customer.create({ email: @user.email, name: user_name })
+          @customer = @user.customers.create!(processor: :stripe, processor_id: stripe_customer.id)
+        end
+
+        Success @customer
       end
 
       def create_line_items
@@ -26,18 +46,22 @@ module Payments
             },
           }
         end
-        @line_items.present? ? Success(@line_items) : Failure('Your shopping cart is empty')
+        @line_items ? Success(@line_items) : Failure('Your shopping cart is empty')
       end
 
       def create_session
-        @session = Stripe::Checkout::Session.create({
-          customer_email: @user.email,
+        Success Stripe::Checkout::Session.create({
+          customer: @customer.processor_id,
           success_url: success_checkout_url,
           cancel_url: cart_url,
           line_items: @line_items,
           expires_at: Time.current.to_i + 3600,
           mode: :payment,
         })
+      end
+
+      def user_name
+        "#{@user.first_name} #{@user.last_name}"
       end
     end
   end

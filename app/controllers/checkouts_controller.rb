@@ -16,6 +16,8 @@ class CheckoutsController < ApplicationController
   def success
     # TODO: After creating the transaction history model, add the purchase summary screen
     current_user.line_items.destroy_all
+
+    flash[:notice] = 'Purchase was successful!'
     redirect_to cart_path
   end
 end

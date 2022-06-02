@@ -4,7 +4,7 @@ class ApplicationService
   include Rails.application.routes.url_helpers
 
   def self.call(...)
-    new.call(...)
+    new(...).call
   end
 
   def default_url_options
