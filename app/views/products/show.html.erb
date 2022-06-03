@@ -13,4 +13,22 @@
     | Amount: <%= @product.quantity %>
   </span>
 
+
+  <% if @product.product_discounts.present? %>
+    <div class="card my-2" style="width: 18rem;">
+      <div class="card-header">Discounts</div>
+
+      <ul class="list-group list-group-flush">
+        <% @product.product_discounts.each do |product_discount| %>
+          <li class="list-group-item">
+            <%= format_price(@product.currency, product_discount.discount_price) %>
+            <span>with card: <%= product_discount.card_type %> </span>
+          </li>
+        <% end %>
+      </ul>
+
+    </div>
+  <% end %>
+
+
 </div>

@@ -8,7 +8,7 @@
         <% unless @line_items.exists? %>
           <h3>Your shopping cart is empty!</h3>
         <% else %>
-          <p>Total value: <%= format_price(@line_items.first.product.currency, @line_items.total_value) %></p>
+          <p>Total value: <%= format_price(@line_items.first.product.currency, @line_items.total_value - @line_items.total_discount_value) %></p>
           <span>Total items: <%= @line_items.total_items %></span>
         <% end %>
       </blockquote>
@@ -29,17 +29,26 @@
           <div class="card-body">
             <h5 class="card-title"><%= product.name %></h5>
             <p class="card-text"><%= product.description %></p>
+
+            <p class="card-text">
+              <% if line_item.product_discount %>
+                Price:
+                <del><%= format_price(product.currency, product.default_price) %></del>
+                <span class="text-danger">
+                  <%= format_price(product.currency, line_item.product_discount.discount_price) %>
+                </span>
+                <span class="text-muted">( <%= line_item.product_discount.card_type%> )</span>
+            <% else %>
+                Price: <%= format_price(product.currency, product.default_price) %>
+              <% end %>
+            </p>
+
             <p class="card-text">
               <small class="text-muted">
                 <%= format_price(product.currency, get_line_item_price(line_item)) %>
               </small>
               <small class="text-muted">
                 | Amount: <%= line_item.quantity %>
-              </small>
-              <small>
-                <br/>
-                <%= line_item.product_discount&.discount_price %>
-                <%= line_item.product_discount&.card_type %>
               </small>
             </p>
           </div>

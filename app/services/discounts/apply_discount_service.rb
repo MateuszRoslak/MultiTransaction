@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Discounts
   class ApplyDiscountService < ApplicationService
     attr_reader :user
@@ -10,7 +12,11 @@ module Discounts
     def call
       @line_items.each do |line_item|
         best_discount = line_item.product.product_discounts.join_user_discounts(@user).order(:discount_price).first
-        line_item.update!(product_discount_id: best_discount.id) if best_discount.present?
+        if best_discount.present?
+          line_item.update!(product_discount_id: best_discount.id)
+        else
+          line_item.update!(product_discount_id: nil)
+        end
       end
     end
   end

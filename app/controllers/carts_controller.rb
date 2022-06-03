@@ -24,7 +24,7 @@ class CartsController < ApplicationController
   private
 
   def set_line_items
-    @line_items = current_user.line_items.includes(:product)
+    @line_items = current_user.line_items.includes(:product, :product_discount)
   end
 
   def set_line_item
