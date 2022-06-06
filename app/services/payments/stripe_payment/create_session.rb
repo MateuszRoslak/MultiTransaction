@@ -5,10 +5,12 @@ require 'dry/matcher/result_matcher'
 module Payments
   module StripePayment
     class CreateSession < ApplicationService
+      include CartHelper
+      include Rails.application.routes.url_helpers
+      include Dry::Monads[:result, :do]
       class << self
         include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
       end
-      include Dry::Monads[:result, :do]
 
       def initialize(user:)
         super()
@@ -34,12 +36,12 @@ module Payments
       end
 
       def create_line_items
-        @line_items = @user.line_items.includes(:product).map do |line_item|
+        @line_items = @user.line_items.includes(:product, :product_discount).map do |line_item|
           {
             quantity: line_item.quantity,
             price_data: {
               currency: line_item.product.currency,
-              unit_amount: line_item.product.default_price,
+              unit_amount: get_final_product_price(line_item),
               product_data: {
                 name: line_item.product.name,
               },
@@ -50,18 +52,24 @@ module Payments
       end
 
       def create_session
-        Success Stripe::Checkout::Session.create({
-          customer: @customer.processor_id,
-          success_url: success_checkout_url,
-          cancel_url: cart_url,
-          line_items: @line_items,
-          expires_at: Time.current.to_i + 3600,
-          mode: :payment,
-        })
+        Success Stripe::Checkout::Session.create(
+          {
+            customer: @customer.processor_id,
+            success_url: success_checkout_url,
+            cancel_url: cart_url,
+            line_items: @line_items,
+            expires_at: Time.current.to_i + 3600,
+            mode: :payment,
+          }
+        )
       end
 
       def user_name
         "#{@user.first_name} #{@user.last_name}"
+      end
+
+      def default_url_options
+        Rails.application.config.action_mailer.default_url_options
       end
     end
   end
