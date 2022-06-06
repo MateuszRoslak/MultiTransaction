@@ -1,15 +1,20 @@
 # frozen_string_literal: true
 
 module Discounts
-  class ApplyDiscountService < ApplicationService
-    attr_reader :user
-
-    def initialize(user)
+  class ApplyDiscounts < ApplicationService
+    def initialize(user:)
+      super()
       @user = user
       @line_items = @user.line_items
     end
 
     def call
+      include_discounts
+    end
+
+    private
+
+    def include_discounts
       @line_items.each do |line_item|
         best_discount = line_item.product.product_discounts.join_user_discounts(@user).order(:discount_price).first
         if best_discount.present?

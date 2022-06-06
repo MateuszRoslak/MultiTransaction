@@ -10,11 +10,8 @@ class ProductDiscount < ApplicationRecord
 
   enum card_type: CardTypeEnum::VALUES, _prefix: true
 
-  # scope :best_discount,
-  #       lambda{|user|
-  #         join_user_discounts(user).order(:discount_price).first}
   scope :join_user_discounts,
         lambda { |user|
-          joins('LEFT JOIN cards c ON c.card_type = product_discounts.card_type').where("c.user_id = #{user.id}")
+          joins("INNER JOIN cards c ON c.card_type = product_discounts.card_type AND c.user_id = #{user.id}")
         }
 end
