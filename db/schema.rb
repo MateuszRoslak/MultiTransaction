@@ -38,6 +38,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_120024) do
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "processor", null: false
+    t.string "processor_id"
+    t.boolean "default"
+    t.json "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["processor", "processor_id"], name: "index_customers_on_processor_and_processor_id", unique: true
+    t.index ["user_id"], name: "index_customers_on_user_id"
+  end
+
   create_table "line_items", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "product_id", null: false
@@ -97,6 +109,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_120024) do
 
   add_foreign_key "addresses", "users"
   add_foreign_key "cards", "users"
+  add_foreign_key "customers", "users"
   add_foreign_key "line_items", "product_discounts"
   add_foreign_key "line_items", "products"
   add_foreign_key "line_items", "users"

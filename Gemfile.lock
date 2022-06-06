@@ -96,6 +96,13 @@ GEM
       responders
       warden (~> 1.2.3)
     digest (3.1.0)
+    dry-core (0.7.1)
+      concurrent-ruby (~> 1.0)
+    dry-matcher (0.9.0)
+      dry-core (~> 0.4, >= 0.4.8)
+    dry-monads (1.4.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.7)
     erubi (1.10.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -217,6 +224,7 @@ GEM
     sqlite3 (1.4.2)
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
+    stripe (6.2.0)
     strscan (3.0.1)
     thor (1.2.1)
     timeout (0.2.0)
@@ -252,6 +260,8 @@ DEPENDENCIES
   capybara
   debug
   devise
+  dry-matcher
+  dry-monads
   importmap-rails
   jbuilder
   pg
@@ -264,6 +274,7 @@ DEPENDENCIES
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
+  stripe
   turbo-rails
   tzinfo-data
   web-console

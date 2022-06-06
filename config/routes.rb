@@ -15,5 +15,11 @@ Rails.application.routes.draw do
 
   resource :cards, only: [:show, :destroy, :new, :create]
 
+  resource :checkout, only: [:create] do
+    collection do
+      get :success
+    end
+  end
+
   root 'pages#home'
 end
