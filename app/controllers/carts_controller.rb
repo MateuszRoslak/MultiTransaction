@@ -7,6 +7,7 @@ class CartsController < ApplicationController
   before_action :set_line_item, only: %i[destroy update]
 
   def show
+    Discounts::ApplyDiscounts.call(user: current_user)
     @line_items = @line_items.order(:created_at)
   end
 
@@ -23,7 +24,7 @@ class CartsController < ApplicationController
   private
 
   def set_line_items
-    @line_items = current_user.line_items.includes(:product)
+    @line_items = current_user.line_items.includes(:product, :product_discount)
   end
 
   def set_line_item

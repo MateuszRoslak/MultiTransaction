@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   resource :cart, only: [:show, :destroy, :update]
 
+  resource :cards, only: [:show, :destroy, :new, :create]
+
   resource :checkout, only: [:create] do
     collection do
       get :success
