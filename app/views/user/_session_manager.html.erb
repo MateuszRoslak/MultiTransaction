@@ -7,8 +7,9 @@
       <%= current_user.email %>
     </a>
     <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
-      <li><%= link_to "Edit Account", edit_user_registration_path, class:"dropdown-item" %></li>
+      <li><%= link_to "Cards", cards_path, class:"dropdown-item" %></li>
       <li><hr class="dropdown-divider"></li>
+      <li><%= link_to "Edit Account", edit_user_registration_path, class:"dropdown-item" %></li>
       <li><%= button_to "Sign out", destroy_user_session_path, method: :delete, class:"dropdown-item" %></li>
     </ul>
   </li>

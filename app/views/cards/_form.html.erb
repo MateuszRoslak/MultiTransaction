@@ -1,0 +1,36 @@
+<%= form_with model: card, id: "#{dom_id(card)}_form" do |f| %>
+
+  <%= render "devise/shared/error_messages", resource: card %>
+
+  <div class="row mb-3">
+
+    <div class="col">
+      <div class="form-floating">
+        <%= f.text_field :name, class: "form-control" %>
+        <%= f.label :name %>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-floating">
+        <%= f.select :card_type, Card.card_types, { include_blank: true }, { class: "form-select" } %>
+        <%= f.label :card_type %>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-floating">
+        <%= f.text_field :card_code, class: "form-control" %>
+        <%= f.label :card_code %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-auto">
+      <%= f.submit "Add Card", class: "btn btn-primary" %>
+    </div>
+  </div>
+
+<% end %>

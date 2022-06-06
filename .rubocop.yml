@@ -38,3 +38,6 @@ Layout/FirstArrayElementLineBreak:
 
 Layout/FirstHashElementLineBreak:
   Enabled: true
+
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true

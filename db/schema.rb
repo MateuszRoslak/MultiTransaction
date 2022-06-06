@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_26_101817) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_01_120024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_26_101817) do
     t.integer "quantity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "product_discount_id"
+    t.index ["product_discount_id"], name: "index_line_items_on_product_discount_id"
     t.index ["product_id"], name: "index_line_items_on_product_id"
     t.index ["user_id", "product_id"], name: "index_line_items_on_user_id_and_product_id", unique: true
     t.index ["user_id"], name: "index_line_items_on_user_id"
@@ -51,11 +53,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_26_101817) do
 
   create_table "product_discounts", force: :cascade do |t|
     t.bigint "product_id", null: false
-    t.integer "discount", default: 0, null: false
     t.string "card_type", null: false
-    t.boolean "percent", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "discount_price", null: false
     t.index ["product_id"], name: "index_product_discounts_on_product_id"
   end
 
@@ -96,6 +97,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_26_101817) do
 
   add_foreign_key "addresses", "users"
   add_foreign_key "cards", "users"
+  add_foreign_key "line_items", "product_discounts"
   add_foreign_key "line_items", "products"
   add_foreign_key "line_items", "users"
   add_foreign_key "product_discounts", "products"

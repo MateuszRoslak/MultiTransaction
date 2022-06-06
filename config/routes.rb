@@ -13,5 +13,7 @@ Rails.application.routes.draw do
 
   resource :cart, only: [:show, :destroy, :update]
 
+  resource :cards, only: [:show, :destroy, :new, :create]
+
   root 'pages#home'
 end
