@@ -6,16 +6,14 @@ class CheckoutsController < ApplicationController
   def create
     Payments::StripePayment::CreateSession.call(user: current_user) do |on|
       on.success { |session| redirect_to session.url, status: 303, allow_other_host: true }
-      on.failure do |error|
-        redirect_to cart_path, alert: error
-      end
+      on.failure { |error| redirect_to cart_path, alert: error }
     end
   end
 
   def success
-    # TODO: After creating the transaction history model, add the purchase summary screen
-    current_user.line_items.destroy_all
-
-    redirect_to cart_path, notice: 'Purchase was successful!'
+    Orders::CreateOrder.call(user: current_user) do |on|
+      on.success { |order| redirect_to order_path(order.number), notice: 'Purchase was successful!' }
+      on.failure { |error| redirect_to cart_path, alert: error }
+    end
   end
 end

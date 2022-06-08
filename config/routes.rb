@@ -21,5 +21,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :orders, only: [:index, :show]
+
   root 'pages#home'
 end

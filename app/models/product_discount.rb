@@ -2,6 +2,9 @@
 
 class ProductDiscount < ApplicationRecord
   include CardTypeEnum
+  include HasTaxesCalculation
+
+  before_validation -> { calculate_tax_value(discount_price) }
 
   belongs_to :product
   has_many :line_items, dependent: :nullify

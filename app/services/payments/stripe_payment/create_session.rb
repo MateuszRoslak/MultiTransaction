@@ -41,7 +41,7 @@ module Payments
             quantity: line_item.quantity,
             price_data: {
               currency: line_item.product.currency,
-              unit_amount: get_final_product_price(line_item),
+              unit_amount: get_line_item_price(line_item),
               product_data: {
                 name: line_item.product.name,
               },

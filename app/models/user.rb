@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :cards, dependent: :destroy
   has_many :line_items, dependent: :destroy
   has_many :customers, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
   has_one :wallet, dependent: :destroy
 
