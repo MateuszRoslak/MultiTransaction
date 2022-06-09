@@ -1,58 +1,38 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2 class="form-class mx-auto">Edit <%= resource_name.to_s.humanize %></h2>
 
-<div class="card">
+<div class="card form-class mx-auto">
   <div class="card-body">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="card">
-        <h5 class="card-header">Change email</h5>
-        <div class="card-body">
-          <div class="field">
-            <%= f.label :email %><br />
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
-          </div><br/>
-        </div>
-      </div><br/>
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
         <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
       <% end %>
 
       <div class="card">
-        <h5 class="card-header">Change data</h5>
+        <h5 class="card-header">Change phone number</h5>
         <div class="card-body">
           <div class="field">
-            <%= f.label :first_name %><br />
-            <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", class: "form-control" %>
-          </div><br/>
-
-          <div class="field">
-            <%= f.label :last_name %><br />
-            <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name", class: "form-control" %>
-          </div><br/>
-
-          <div class="field">
-            <%= f.label :phone %><br />
+            <%= f.label :phone %>
             <%= f.text_field :phone, autofocus: true, autocomplete: "phone", class: "form-control" %>
-          </div><br/>
+          </div>
         </div>
-      </div><br/>
+      </div>
 
       <div class="card">
         <h5 class="card-header">Change password</h5>
         <div class="card-body">
           <div class="field">
-            <%= f.label :password, "New password" %><br />
+            <%= f.label :password, "New password" %>
             <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
-          </div><br/>
+          </div>
 
           <div class="field">
-            <%= f.label :password_confirmation, "Repeat new password"%><br />
+            <%= f.label :password_confirmation, "Repeat new password"%>
             <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
           </div>
         </div>
       </div>
-      <br/>
       <div class="card">
         <h5 class="card-header">Confirm changes</h5>
         <div class="card-body">
@@ -62,12 +42,10 @@
           </div>
         </div>
       </div>
-      <br/>
       <div class="actions">
         <%= f.submit "Update account", class: "btn btn-outline-secondary text-dark" %>
       </div>
     <% end %>
-    <br/>
     <div class="card">
       <h5 class="card-header">Delete my account</h5>
       <div class="card-body">
