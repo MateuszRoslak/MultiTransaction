@@ -87,6 +87,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_07_095038) do
     t.integer "items_total_net", null: false
     t.integer "tax_total", null: false
     t.integer "discount_total", null: false
+    t.string "status", null: false
+    t.string "session"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["number"], name: "index_orders_on_number", unique: true

@@ -1,0 +1,20 @@
+<% presenter = LineItemPresenter.new(line_item) %>
+
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-3 text-center m-auto">
+      <span>No images</span>
+    </div>
+
+    <div class="col-md-5">
+      <div class="card-body">
+        <h5 class="card-title"><%= presenter.product_name %></h5>
+
+        <p class="card-text text-muted"><%= presenter.price %> | Amount: <%= line_item.quantity %></p>
+        <p class="card-text">Total Price: <%= presenter.total_price %></p>
+
+      </div>
+    </div>
+
+  </div>
+</div>

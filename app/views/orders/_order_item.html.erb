@@ -1,3 +1,5 @@
+<% presenter = OrderItemPresenter.new(order_item) %>
+
 <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-3 text-center m-auto">
@@ -9,10 +11,10 @@
 
         <h5 class="card-title"><%= order_item.name %></h5>
         <p class="card-text text-muted">
-          <span>Price: <%= format_price(order_item.currency, order_item.price) %></span>
+          <span>Price: <%= presenter.price %></span>
           <span>| Quantity: <%= order_item.quantity %></span>
         </p>
-        <p class="card-text">Total: <%= format_price(order_item.currency, order_item.total) %> </p>
+        <p class="card-text">Total: <%= presenter.total_price %> </p>
 
       </div>
     </div>

@@ -11,6 +11,8 @@ class CreateOrders < ActiveRecord::Migration[7.0]
       t.integer :items_total_net, null: false
       t.integer :tax_total, null: false
       t.integer :discount_total, null: false
+      t.string :status, null: false
+      t.string :session
 
       t.index %i[number], unique: true
 

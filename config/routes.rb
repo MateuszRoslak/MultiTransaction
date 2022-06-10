@@ -11,17 +11,27 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :cart, only: [:show, :destroy, :update]
+  resource :cart, only: [:show, :destroy, :update] do
+    collection do
+      get :summary
+    end
+  end
 
   resource :cards, only: [:show, :destroy, :new, :create]
 
   resource :checkout, only: [:create] do
     collection do
-      get :success
+      post :retry
     end
   end
 
   resources :orders, only: [:index, :show]
+
+  namespace :stripe_payments do
+    resources :webhooks, only: [] do
+      post :process_event, on: :collection
+    end
+  end
 
   root 'pages#home'
 end

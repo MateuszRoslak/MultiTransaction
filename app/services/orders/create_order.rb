@@ -4,7 +4,6 @@ require 'dry/matcher/result_matcher'
 
 module Orders
   class CreateOrder < ApplicationService
-    include CartHelper
     include Dry::Monads[:result, :do]
     class << self
       include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
@@ -42,27 +41,30 @@ module Orders
     end
 
     def order_params
+      items_total = @line_items.total_value - @line_items.total_discount_value
+      tax_total = @line_items.total_tax_value - @line_items.total_discount_tax_value
       {
         currency: 'pln',
         item_quantity: @line_items.total_items,
-        items_total: get_final_price(@line_items),
-        items_total_net: get_final_net(@line_items),
-        tax_total: get_final_tax(@line_items),
+        items_total:,
+        items_total_net: items_total - tax_total,
+        tax_total:,
         discount_total: @line_items.total_discount_value,
+        status: :unpaid,
       }
     end
 
     def order_list_params(line_item)
-      price = get_line_item_price(line_item)
+      price = line_item.price
       quantity = line_item.quantity
       {
         product_id: line_item.product.id,
         name: line_item.product.name,
         currency: line_item.product.currency,
-        price: get_line_item_price(line_item),
+        price:,
         quantity:,
         total: quantity * price,
-        tax_total: quantity * get_line_item_tax(line_item),
+        tax_total: quantity * line_item.tax_value,
       }
     end
   end

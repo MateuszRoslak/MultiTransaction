@@ -3,13 +3,14 @@
 class CartsController < ApplicationController
   before_action :authenticate_user!
 
-  before_action :set_line_items, only: [:show]
+  before_action :build_cart, only: %i[show summary]
   before_action :set_line_item, only: %i[destroy update]
 
   def show
     Discounts::ApplyDiscounts.call(user: current_user)
-    @line_items = @line_items.order(:created_at)
   end
+
+  def summary; end
 
   def destroy
     @line_item.destroy!
@@ -23,15 +24,18 @@ class CartsController < ApplicationController
 
   private
 
-  def set_line_items
-    @line_items = current_user.line_items.includes(:product, :product_discount)
-  end
-
   def set_line_item
     @line_item = current_user.line_items.find(params[:id])
   end
 
   def line_item_params
     params.require(:line_item).permit(:quantity)
+  end
+
+  def build_cart
+    Carts::BuildCart.call(user: current_user) do |on|
+      on.success { |cart| @cart = cart }
+      on.failure { |error| flash[:alert] = error }
+    end
   end
 end

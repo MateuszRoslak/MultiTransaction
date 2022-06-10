@@ -1,29 +1,50 @@
 <div class="container">
+  <% presenter = OrderPresenter.new(@order) %>
+
   <div class="card my-3">
 
     <div class="card-header">Order number: <%= @order.number %></div>
 
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center">
-        <dl class="row">
+        <div class="row">
           <dt class="col-sm-2">Date of order:</dt>
-          <dd class="col-sm-9"><%= format_timestamp_to_db(@order.created_at) %></dd>
+          <dd class="col-2"><%= presenter.date %></dd>
+
+          <dt class="col-sm-1">Status:</dt>
+          <dd class="col-7">
+            <% if @order.status_unpaid? %>
+              <%= button_to(
+                    "Pay For The Order",
+                    retry_checkout_path(id: @order.id),
+                    method: :post,
+                    data: { turbo: false },
+                    class: "btn btn-sm btn-outline-success")
+              %>
+            <% else %>
+              <%= presenter.status %>
+            <% end %>
+          </dd>
 
           <dt class="col-sm-2">Total items:</dt>
           <dd class="col-sm-9"><%= @order.item_quantity %></dd>
 
           <dt class="col-sm-2">Discount granted:</dt>
-          <dd class="col-sm-9 text-danger"><%= format_price(@order.currency, @order.discount_total) %></dd>
+          <dd class="col-sm-9 text-danger"><%= presenter.discount_total %></dd>
 
           <dt class="col-sm-2">Total net:</dt>
-          <dd class="col"><%= format_price(@order.currency, @order.items_total_net) %></dd>
+          <dd class="col"><%= presenter.items_total_net %></dd>
 
           <dt class="col-sm-2">Total tax:</dt>
-          <dd class="col"><%= format_price(@order.currency, @order.tax_total) %></dd>
+          <dd class="col"><%= presenter.tax_total %></dd>
 
           <dt class="col-sm-2">Total value:</dt>
-          <dd class="col"><%= format_price(@order.currency, @order.items_total) %></dd>
-        </dl>
+          <dd class="col"><%= presenter.items_total %></dd>
+
+
+        </div>
+
+
       </div>
     </div>
   </div>

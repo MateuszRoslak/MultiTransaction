@@ -21,5 +21,14 @@ class LineItem < ApplicationRecord
           joins(:product_discount, :product)
             .sum('line_items.quantity * (products.tax_value - product_discounts.tax_value)')
         }
+
   scope :total_items, -> { sum(:quantity) }
+
+  def price
+    product_discount ? product_discount.discount_price : product.default_price
+  end
+
+  def tax_value
+    product_discount ? product_discount.tax_value : product.tax_value
+  end
 end
