@@ -20,6 +20,6 @@ module MultiTransaction
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
+    config.exceptions_app = self.routes
   end
 end
