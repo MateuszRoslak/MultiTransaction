@@ -1,55 +1,52 @@
 # frozen_string_literal: true
 
-require 'dry/matcher/result_matcher'
-
 module Orders
   class CreateOrder < ApplicationService
-    include Dry::Monads[:result, :do]
-    class << self
-      include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
-    end
-
     def initialize(user:)
       super()
       @user = user
-      @line_items = user.line_items
     end
 
     def call
-      yield initialize_order
-      yield create_order_items
-      yield destroy_line_items
+      line_items = user_line_items
+      order = yield initialize_order(line_items)
+      yield create_order_items(order, line_items)
+      destroy_line_items
 
-      Success @order
+      Success order
     end
 
     private
 
-    def initialize_order
-      @order = @user.orders.new(order_params)
-      @order.save ? Success(@order) : Failure(@order.errors.messages)
+    def user_line_items
+      @user.line_items.includes(:product, :product_discount)
     end
 
-    def create_order_items
-      order_items = @line_items.includes(:product, :product_discount).map { |line_item| order_list_params(line_item) }
-      @order_items = @order.order_items.new(order_items)
-      @order.save ? Success(@order_items) : Failure(@order_items.errors.messages)
+    def initialize_order(line_items)
+      order = @user.orders.new(order_params(line_items))
+      order.save ? Success(order) : Failure(order.errors.messages)
+    end
+
+    def create_order_items(order, line_items)
+      order_items = line_items.map { |line_item| order_list_params(line_item) }
+      order_items = order.order_items.new(order_items)
+      order.save ? Success(order_items) : Failure(order_items.errors.messages)
     end
 
     def destroy_line_items
-      Success @user.line_items.destroy_all
+      @user.line_items.destroy_all
     end
 
-    def order_params
-      items_total = @line_items.total_value - @line_items.total_discount_value
-      tax_total = @line_items.total_tax_value - @line_items.total_discount_tax_value
+    def order_params(line_items)
+      items_total = line_items.total_value - line_items.total_discount_value
+      tax_total = line_items.total_tax_value - line_items.total_discount_tax_value
       {
         currency: 'pln',
-        item_quantity: @line_items.total_items,
+        item_quantity: line_items.total_items,
         items_total:,
         items_total_net: items_total - tax_total,
         tax_total:,
-        discount_total: @line_items.total_discount_value,
+        discount_total: line_items.total_discount_value,
         status: :unpaid,
       }
     end

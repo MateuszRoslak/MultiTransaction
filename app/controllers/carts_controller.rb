@@ -6,9 +6,7 @@ class CartsController < ApplicationController
   before_action :build_cart, only: %i[show summary]
   before_action :set_line_item, only: %i[destroy update]
 
-  def show
-    Discounts::ApplyDiscounts.call(user: current_user)
-  end
+  def show; end
 
   def summary; end
 
@@ -33,7 +31,7 @@ class CartsController < ApplicationController
   end
 
   def build_cart
-    Carts::BuildCart.call(user: current_user) do |on|
+    Carts::BuildCart.new(user: current_user).call do |on|
       on.success { |cart| @cart = cart }
       on.failure { |error| flash[:alert] = error }
     end

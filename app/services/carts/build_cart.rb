@@ -1,31 +1,29 @@
 # frozen_string_literal: true
 
-require 'dry/matcher/result_matcher'
-
 module Carts
   class BuildCart < ApplicationService
-    include Dry::Monads[:result, :do]
-    class << self
-      include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
-    end
-
     def initialize(user:)
       super()
       @user = user
     end
 
     def call
-      line_items = yield user_line_items
-      yield create_structure
+      line_items = yield apply_discounts
+      create_structure
       build_cart_object(line_items)
     end
 
-    def user_line_items
-      Success @user.line_items.includes(:product, :product_discount).order(:created_at)
+    private
+
+    def apply_discounts
+      Discounts::ApplyDiscounts.new(user: @user).call do |on|
+        on.success { |line_items| Success line_items }
+        on.failure { |error| Failure error }
+      end
     end
 
     def create_structure
-      Success Struct.new(
+      Struct.new(
         'Cart',
         :currency,
         :total_items,
@@ -57,7 +55,6 @@ module Carts
           }
         )
       end
-
       Success Struct::Cart.new(cart_params)
     end
   end
