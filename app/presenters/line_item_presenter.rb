@@ -24,7 +24,7 @@ class LineItemPresenter < ApplicationPresenter
     @line_item.product.name
   end
 
-  def cart_type
+  def card_type
     @line_item.product_discount&.card_type
   end
 

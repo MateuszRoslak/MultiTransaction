@@ -1,9 +1,6 @@
-<div class="container">
+<%= render 'summary', cart: @cart %>
 
-  <%= render 'summary', cart: @cart %>
+<% @cart.line_items.each do |line_item| %>
+  <%= render 'line_item', line_item: line_item %>
+<% end %>
 
-  <% @cart.line_items.each do |line_item| %>
-    <%= render 'line_item', line_item: line_item  %>
-  <% end %>
-
-</div>
