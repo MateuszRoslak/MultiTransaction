@@ -1,32 +1,33 @@
 # frozen_string_literal: true
 
-require 'dry/matcher/result_matcher'
-
 module Payments
   module StripePayment
     class CreateSession < ApplicationService
       include Rails.application.routes.url_helpers
-      include Dry::Monads[:result, :do]
-      class << self
-        include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
-      end
 
-      def initialize(user:, order:)
+      def initialize(user:)
         super()
         @user = user
-        @order = order
       end
 
       def call
+        order = yield create_order
         customer = yield create_customer
-        line_items = yield create_line_items
-        session = yield create_session(customer, line_items)
+        line_items = yield create_line_items(order)
+        session = yield create_session(customer, line_items, order)
 
-        yield update_order(session)
+        yield update_order(order, session)
         Success session
       end
 
       private
+
+      def create_order
+        Orders::CreateOrder.new(user: @user).call do |on|
+          on.success { |order| Success order }
+          on.failure { |error| Failure error }
+        end
+      end
 
       def create_customer
         customer = @user.customers.find_by(processor: :stripe)
@@ -38,8 +39,8 @@ module Payments
         Success customer
       end
 
-      def create_line_items
-        line_items = @order.order_items.map do |order_item|
+      def create_line_items(order)
+        line_items = order.order_items.map do |order_item|
           {
             quantity: order_item.quantity,
             price_data: {
@@ -54,11 +55,11 @@ module Payments
         line_items ? Success(line_items) : Failure('Your shopping cart is empty')
       end
 
-      def create_session(customer, line_items)
+      def create_session(customer, line_items, order)
         Success Stripe::Checkout::Session.create(
           {
             customer: customer.processor_id,
-            success_url: order_url(@order.number),
+            success_url: order_url(order.number),
             cancel_url: cart_url,
             line_items:,
             expires_at: Time.current.to_i + 3600,
@@ -67,9 +68,9 @@ module Payments
         )
       end
 
-      def update_order(session)
-        @order.update(session: session.id)
-        @order.errors.any? ? Failure(@order.errors.messages) : Success(@order)
+      def update_order(order, session)
+        order.update(session: session.id)
+        order.errors.any? ? Failure(order.errors.messages) : Success(order)
       end
 
       def user_name

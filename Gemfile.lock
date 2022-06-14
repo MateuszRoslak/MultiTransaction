@@ -74,6 +74,9 @@ GEM
     bootsnap (1.11.1)
       msgpack (~> 1.2)
     builder (3.2.4)
+    bullet (7.0.2)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     capybara (3.36.0)
       addressable
       matrix
@@ -230,7 +233,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.4.2)
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
     stripe (6.2.0)
@@ -244,6 +246,7 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.1.0)
+    uniform_notifier (1.16.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -267,6 +270,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bullet
   capybara
   debug
   devise
@@ -283,7 +287,6 @@ DEPENDENCIES
   sassc-rails
   selenium-webdriver
   sprockets-rails
-  sqlite3 (~> 1.4)
   stimulus-rails
   stripe
   turbo-rails

@@ -1,15 +1,8 @@
 # frozen_string_literal: true
 
-require 'dry/matcher/result_matcher'
-
 module Payments
   module StripePayment
     class RetrySession < ApplicationService
-      include Dry::Monads[:result, :do]
-      class << self
-        include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
-      end
-
       def initialize(order:)
         super()
         @order = order
