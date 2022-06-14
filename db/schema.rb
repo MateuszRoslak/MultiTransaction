@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_01_120024) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_07_095038) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,12 +63,45 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_120024) do
     t.index ["user_id"], name: "index_line_items_on_user_id"
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id"
+    t.string "name", null: false
+    t.string "currency", null: false
+    t.integer "price", null: false
+    t.integer "quantity", null: false
+    t.integer "total", null: false
+    t.integer "tax_total", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "number", null: false
+    t.string "currency", null: false
+    t.integer "item_quantity", null: false
+    t.integer "items_total", null: false
+    t.integer "items_total_net", null: false
+    t.integer "tax_total", null: false
+    t.integer "discount_total", null: false
+    t.string "status", null: false
+    t.string "session"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["number"], name: "index_orders_on_number", unique: true
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "product_discounts", force: :cascade do |t|
     t.bigint "product_id", null: false
     t.string "card_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "discount_price", null: false
+    t.integer "tax_value", null: false
     t.index ["product_id"], name: "index_product_discounts_on_product_id"
   end
 
@@ -81,6 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_120024) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tax_value", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -113,6 +147,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_120024) do
   add_foreign_key "line_items", "product_discounts"
   add_foreign_key "line_items", "products"
   add_foreign_key "line_items", "users"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "users"
   add_foreign_key "product_discounts", "products"
   add_foreign_key "wallets", "users"
 end

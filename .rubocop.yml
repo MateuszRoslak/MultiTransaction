@@ -41,3 +41,6 @@ Layout/FirstHashElementLineBreak:
 
 Layout/FirstMethodArgumentLineBreak:
   Enabled: true
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true

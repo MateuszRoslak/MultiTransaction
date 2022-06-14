@@ -1,0 +1,9 @@
+<%= link_to 'Back', :back, class: "btn btn-warning my-2" %>
+
+<%= render 'summary', cart: @cart, checkout: true %>
+
+<% @cart.line_items.each do |line_item| %>
+  <%= render 'line_item_summary', line_item: line_item %>
+<% end %>
+
+

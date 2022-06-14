@@ -1,0 +1,25 @@
+<table class="table align-middle my-5">
+  <thead>
+  <tr>
+    <th scope="col">Order Number</th>
+    <th scope="col">Order Date</th>
+    <th scope="col">Quantity</th>
+    <th scope="col">Cost</th>
+    <th scope="col">Status</th>
+    <th scope="col"/>
+  </tr>
+  </thead>
+  <tbody>
+  <% @orders.each do |order| %>
+    <% presenter = OrderPresenter.new(order) %>
+    <tr>
+      <td><%= order.number %></td>
+      <td><%= presenter.date %></td>
+      <td><%= order.item_quantity %></td>
+      <td><%= presenter.items_total %></td>
+      <td><%= presenter.status %></td>
+      <td><%= link_to "Show", order_path(order.number), class: "btn btn-sm btn-outline-primary" %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

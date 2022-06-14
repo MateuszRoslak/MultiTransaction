@@ -1,5 +1,4 @@
-<% product = line_item.product %>
-<% product_discount = line_item.product_discount %>
+<% presenter = LineItemPresenter.new(line_item) %>
 
 <div class="card mb-3">
   <div class="row g-0">
@@ -9,40 +8,34 @@
 
     <div class="col-md-5">
       <div class="card-body">
-        <h5 class="card-title"><%= product.name %></h5>
-        <p class="card-text"><%= product.description %></p>
+        <h5 class="card-title"><%= presenter.product_name %></h5>
 
         <p class="card-text">
           Price:
-          <% if product_discount %>
-            <del><%= format_price(product.currency, product.default_price)%></del>
-            <span class="text-danger">
-              <%= format_price(product.currency, product_discount.discount_price) %>
-            </span>
-            <span class="text-muted">( <%= product_discount.card_type %> )</span>
+          <% if line_item.product_discount %>
+            <del><%= presenter.normal_price%></del>
+            <span class="text-danger"><%= presenter.discount_price %></span>
+            <span class="text-muted">( <%= presenter.card_type %> )</span>
           <% else %>
-            <%= format_price(product.currency, product.default_price) %>
+            <%= presenter.normal_price %>
           <% end %>
         </p>
 
         <p class="card-text">
-          <small class="text-muted">
-            <%= format_price(product.currency, get_line_item_price(line_item)) %>
-            | Amount: <%= line_item.quantity %>
-          </small>
+          <small class="text-muted"><%= presenter.total_price %> | Amount: <%= line_item.quantity %></small>
         </p>
       </div>
     </div>
 
     <div class="col-md-2 text-center m-auto">
       <%= form_with scope: :line_item, url: cart_path(id: line_item), method: :patch do |f| %>
-        <%= f.number_field :quantity, style: "width: 60px", class: "mb-2", value: line_item.quantity, in: 1..product.quantity %>
+        <%= f.number_field :quantity, style: "width: 60px", class: "mb-2", value: line_item.quantity, in: 1..line_item.product.quantity %>
         <%= f.submit 'Change amount', class: "btn btn-warning mb-2" %>
       <% end %>
     </div>
 
     <div class="col-md-1 text-center m-auto">
-      <%= link_to "Show", product_path(product.id), class: "btn btn-primary mb-2" %>
+      <%= link_to "Show", product_path(line_item.product_id), class: "btn btn-primary mb-2" %>
       <%= button_to "Delete", cart_path, params: { id: line_item.id }, method: :delete, class: "btn btn-danger mb-2" %>
     </div>
 

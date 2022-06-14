@@ -1,0 +1,29 @@
+<% presenter = OrderItemPresenter.new(order_item) %>
+
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-3 text-center m-auto">
+      <span>No images</span>
+    </div>
+
+    <div class="col-md-5">
+      <div class="card-body">
+
+        <h5 class="card-title"><%= order_item.name %></h5>
+        <p class="card-text text-muted">
+          <span>Price: <%= presenter.price %></span>
+          <span>| Quantity: <%= order_item.quantity %></span>
+        </p>
+        <p class="card-text">Total: <%= presenter.total_price %> </p>
+
+      </div>
+    </div>
+
+    <div class="col-md-2 text-center m-auto">
+      <% if order_item.product_id %>
+        <%= link_to "Show Product", product_path(order_item.product_id), method: :get, class: "btn btn-primary mb-2" %>
+      <% end %>
+    </div>
+
+  </div>
+</div>
