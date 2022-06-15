@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CardsController < ApplicationController
-  before_action :authenticate_user!
-
   before_action :set_cards, only: [:show]
   before_action :set_card, only: %i[destroy]
 
