@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ProductsController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[index show]
+
   before_action :set_products, only: [:index]
   before_action :set_product, only: %i[show add_to_cart]
 

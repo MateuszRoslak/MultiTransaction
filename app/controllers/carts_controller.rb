@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CartsController < ApplicationController
-  before_action :authenticate_user!
-
   before_action :build_cart, only: %i[show summary]
   before_action :set_line_item, only: %i[destroy update]
 
