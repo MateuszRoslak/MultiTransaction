@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CheckoutsController < ApplicationController
-  before_action :authenticate_user!
-
   before_action :set_order, only: [:retry]
 
   def create
