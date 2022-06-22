@@ -44,3 +44,6 @@ Layout/FirstMethodArgumentLineBreak:
 
 Layout/MultilineMethodArgumentLineBreaks:
   Enabled: true
+
+Layout/TrailingEmptyLines:
+  Enabled: true
