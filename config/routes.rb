@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :cards, only: %i[show destroy new create]
+  resources :cards, only: %i[index destroy new create]
 
   resource :checkout, only: [:create] do
     collection do

@@ -1,28 +1,51 @@
 <h1><%= @product.name %></h1>
-<span>No images</span>
-
-<p class="card-text"><%= @product.description %></p>
-
-<span class="text-muted">
-  <%= format_price(@product.currency, @product.default_price) %>
-</span>
-
-<span class="text-muted">
-  | Amount: <%= @product.quantity %>
-</span>
-
-<% if @product.product_discounts.present? %>
-  <div class="card my-2" style="width: 18rem;">
-    <div class="card-header">Discounts</div>
-
-    <ul class="list-group list-group-flush">
-      <% @product.product_discounts.each do |product_discount| %>
-        <li class="list-group-item">
-          <%= format_price(@product.currency, product_discount.discount_price) %>
-          <span>with card: <%= product_discount.card_type %> </span>
-        </li>
-      <% end %>
-    </ul>
-
+<div class="row mb-4">
+  <div class="col">
+    <div class="card mb-4">
+      <h5 class="card-header">Images</h5>
+      <p class="p-2">No images</p>
+    </div>
   </div>
-<% end %>
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">Price</h5>
+      <span class="text-muted h2 p-2">
+      <%= format_price(@product.currency, @product.default_price) %>
+      </span>
+
+      <span class="text-muted h4 p-2">
+      Amount available: <%= @product.quantity %>
+      </span>
+
+      <% if @product.product_discounts.present? %>
+        <div class="card my-2" style="width: 18rem;">
+          <div class="card-header">Discounts</div>
+          <ul class="list-group list-group-flush">
+            <% @product.product_discounts.each do |product_discount| %>
+              <li class="list-group-item">
+                <%= format_price(@product.currency, product_discount.discount_price) %>
+                <span>with card: <%= product_discount.card_type %> </span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <span class="p-2">
+      <%= button_to add_to_cart_product_path(@product.id),
+                    params: { product: { quantity: 1 } },
+                    method: :post, class: "btn btn-warning mb-2" do
+      %>
+      Add to cart <i class="bi bi-cart-plus"></i>
+      <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">Description</h5>
+      <p class="card-text p-2"><%= @product.description %></p>
+    </div>
+  </div>
+</div>

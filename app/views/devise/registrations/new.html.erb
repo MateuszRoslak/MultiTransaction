@@ -3,10 +3,9 @@
 <h2 class="form-class mx-auto">Sign up</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-<%= render "devise/shared/error_messages", resource: resource %>
-
   <div class="card form-class mx-auto">
     <div class="card-body">
+    <%= render "devise/shared/error_messages", resource: resource %>
       <div class="field form-group">
         <%= f.label :email %>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>

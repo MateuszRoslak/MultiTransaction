@@ -1,4 +1,33 @@
+<%= stylesheet_link_tag "pagination/pagination", "data-turbo-track": "reload" %>
+
 <h1>Products</h1>
+
+<div class="row mb-2">
+  <div class="col">
+    <%= search_form_for @q, url: products_path do |f| %>
+    <%= f.search_field :name_or_description_cont, placeholder: "Search phrase..." %>
+    <%= f.submit name: '', class: "btn btn-outline-secondary btn-sm mb-1 text-dark" %>
+    <% end %>
+  </div>
+  <div class="col">
+    <span>Sort by:</span>
+    <%= sort_link(@q, :name, "Name",{}, { class: "link-dark" }) %>
+    <%= sort_link(@q, :default_price, "Price",{}, { class: "link-dark" }) %>
+  </div>
+  <div class="col">
+    <%= form_tag false, method: :get do %>
+    <span>Products per page:
+      <%= select_tag :per_page, options_for_select([5, 10, 20, 30], selected: params[:per_page] || 30), :class=>"select_box", :onchange => "this.form.submit()" %>
+    </span>
+    <% end %>
+  </div>
+</div>
+
+<div class="apple_pagination">
+  <div class="page_info">
+    <%= page_entries_info @products %>
+  </div>
+</div>
 
 <% @products.each do |product| %>
 
@@ -24,15 +53,21 @@
       </div>
 
       <div class="col-md-2 text-center m-auto">
-        <%= link_to "Show", product_path(product.id), class: "btn btn-primary mb-2" %>
-        <%= button_to "Add to cart",
-                      add_to_cart_product_path(product.id),
+        <%= link_to product_path(product.id), class: "btn btn-primary mb-2", style: "width: 140px" do %>
+          <span>Show details <i class="bi bi-search"></i></span>
+        <% end  %>
+        <%= button_to add_to_cart_product_path(product.id),
                       params: { product: { quantity: 1 } },
-                      method: :post, class: "btn btn-warning mb-2"
+                      method: :post, class: "btn btn-warning mb-2", style: "width: 140px" do
         %>
+          <span>Add to cart <i class="bi bi-cart-plus"></i></span>
+        <% end %>
       </div>
 
     </div>
   </div>
-
 <% end %>
+
+<div class="apple_pagination">
+  <%= will_paginate @products, :container => false %>
+</div>

@@ -1,24 +1,21 @@
 <div class="col">
-  <div class="card text-bg-light" style="width: 18rem;">
+  <div class="card text-bg-light" style="width: 20rem; height: 12rem">
 
-    <div class="card-body my-3">
+    <div class="card-body">
       <div class="row">
 
-        <div class="col">
+        <div class="col-8 text-start">
           <h5 class="card-title"><%= card.name %></h5>
-          <h6 class="card-subtitle mb-2 text-muted"><%= card.card_type %></h6>
+          <h6 class="card-subtitle text-muted"><%= card.card_type %></h6>
+          <h6 class="card-subtitle text-muted"><%= card.card_code %></h6>
         </div>
 
-        <div class="col-5 m-auto">
-          <%= button_to "Delete", cards_path,
-                        params: { id: card.id },
-                        method: :delete,
-                        class: "btn btn-danger" %>
+        <div class="col-4 text-end">
+          <%= button_to card_path(card), form: { data: { turbo_confirm: "Are you sure?" } }, method: :delete, class: "btn btn-danger" do %>
+            <span><i class="bi bi-trash3"></i></span>
+          <% end %>
         </div>
-
       </div>
     </div>
-
   </div>
 </div>
-

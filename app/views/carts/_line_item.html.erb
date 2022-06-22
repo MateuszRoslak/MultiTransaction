@@ -29,14 +29,20 @@
 
     <div class="col-md-2 text-center m-auto">
       <%= form_with scope: :line_item, url: cart_path(id: line_item), method: :patch do |f| %>
-        <%= f.number_field :quantity, style: "width: 60px", class: "mb-2", value: line_item.quantity, in: 1..line_item.product.quantity %>
-        <%= f.submit 'Change amount', class: "btn btn-warning mb-2" %>
+        <span><%= f.number_field :quantity, style: "width: 60px", class: "mb-2", value: line_item.quantity, in: 1..line_item.product.quantity %>
+        <%= button_tag(type: 'submit', class: "btn btn-warning mb-2") do %>
+          Set amount <i class="bi bi-arrow-repeat"></i></span>
+        <% end %>
       <% end %>
     </div>
 
     <div class="col-md-1 text-center m-auto">
-      <%= link_to "Show", product_path(line_item.product_id), class: "btn btn-primary mb-2" %>
-      <%= button_to "Delete", cart_path, params: { id: line_item.id }, method: :delete, class: "btn btn-danger mb-2" %>
+      <%= link_to product_path(line_item.product_id), class: "btn btn-primary mb-2", style: "width: 100px" do %>
+        <span>Show <i class="bi bi-search"></i></span>
+      <% end %>
+      <%= button_to cart_path, params: { id: line_item.id }, method: :delete, class: "btn btn-danger mb-2", style: "width: 100px" do %>
+        <span>Delete <i class="bi bi-cart-x"></i></span>
+      <% end %>
     </div>
 
   </div>
