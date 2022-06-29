@@ -1,0 +1,32 @@
+<div class="table-responsive" id="product_discounts_list">
+  <table class="table table-hover align-middle">
+
+    <thead>
+    <tr>
+      <th scope="col">Card Type</th>
+      <th scope="col">Price</th>
+      <th scope="col">Created At</th>
+      <th scope="col"/>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% product_discounts.each do |product_discount| %>
+      <% presenter = ProductDiscountPresenter.new(product_discount) %>
+      <tr>
+
+        <td><%= product_discount.card_type %></td>
+        <td><%= presenter.price_with_currency %></td>
+        <td><%= presenter.created_at %></td>
+        <td>
+          <%= link_to admin_product_product_discount_path(product_id: product, id: product_discount), class: "btn btn-sm btn-outline-danger", method: :delete, data: { "turbo-method": :delete } do %>
+            <i class="bi bi-trash3-fill"></i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+
+  </table>
+</div>
+

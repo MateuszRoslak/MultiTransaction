@@ -1,0 +1,33 @@
+@import "bootstrap";
+
+main {
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: hidden;
+}
+
+.container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-top: 10px;
+}
+
+thead {
+  th {
+    background-color: white !important;
+    position: sticky;
+    top: 0;
+  }
+
+  th:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+  }
+
+  th:after {
+    bottom: -2px;
+    border-bottom: 2px solid black;
+  }
+}

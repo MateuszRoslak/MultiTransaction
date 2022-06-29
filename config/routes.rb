@@ -12,6 +12,22 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
   }
 
+  # For admins
+  authenticate :user, ->(user) { user.has_role? :admin } do
+    namespace :admin do
+
+      resources :products do
+        member do
+          put :toggle_active
+        end
+
+        resources :product_discounts
+      end
+
+      get '/', to: 'products#index'
+    end
+  end
+
   resources :products, only: %i[index show] do
     member do
       post :add_to_cart

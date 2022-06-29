@@ -1,0 +1,40 @@
+<% presenter = ProductPresenter.new(product) %>
+
+<tr>
+  <td><%= product.name %></td>
+  <td><%= product.quantity %></td>
+  <td><%= presenter.price %></td>
+  <td><%= presenter.currency %></td>
+  <td><%= presenter.created_at %></td>
+  <td><%= presenter.updated_at %></td>
+  <td>
+    <%= check_box_tag(
+          :active,
+          product.id,
+          product.active,
+          data: {
+            id: product.id,
+            action: "admin--products#toggleActive",
+          })
+    %>
+  </td>
+
+  <td>
+    <%= link_to admin_product_product_discounts_path(product),
+                style: 'width: 55px',
+                class: "btn btn-sm btn-outline-warning",
+                data: { turbo_frame: "remote_modal" } do %>
+      <%= presenter.discounts_count %>
+      <i class="bi bi-credit-card-fill"></i>
+    <% end %>
+  </td>
+
+  <td>
+    <%= link_to admin_product_path(product), class: "btn btn-sm btn-outline-danger", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } do %>
+      <i class="bi bi-trash3-fill"></i>
+    <% end %>
+    <%= link_to edit_admin_product_path(product), class: "btn btn-sm btn-outline-success", data: { turbo_frame: "remote_modal" } do %>
+      <i class="bi bi-pencil-fill"></i>
+    <% end %>
+  </td>
+</tr>

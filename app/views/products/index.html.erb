@@ -1,6 +1,7 @@
 <h1>Products</h1>
 
 <% @products.each do |product| %>
+  <% presenter = ProductPresenter.new(product)%>
 
   <div class="card mb-3" >
     <div class="row g-0">
@@ -14,7 +15,7 @@
           <p class="card-text"><%= product.description %></p>
           <p class="card-text">
             <small class="text-muted">
-              <%= format_price(product.currency, product.default_price) %>
+              <%= presenter.price_with_currency %>
             </small>
             <small class="text-muted">
               | Quantity available: <%= product.quantity %>
