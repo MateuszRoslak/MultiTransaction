@@ -1,27 +1,32 @@
-import {Controller} from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-    static targets = ['priceInput']
+  static targets = ["priceInput"];
 
-    priceInputTargetConnected() {
-        const value = this.priceInputTarget.value;
+  priceInputTargetConnected() {
+    const value = this.priceInputTarget.value;
 
-        if (value && value !== '0') {
-            this.priceInputTarget.value = `${value.slice(0, value.length - 2)}.${value.slice(-2)}`
-        }
-
-        this.formatPrice()
+    if (value && value !== "0") {
+      this.priceInputTarget.value = `${value.slice(
+        0,
+        value.length - 2
+      )}.${value.slice(-2)}`;
     }
 
-    formatPrice() {
-        const value = this.priceInputTarget.value.replace(',', '')
+    this.formatPrice();
+  }
 
-        let price = parseFloat(value)
-            .toFixed(2)
-            .replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  formatPrice() {
+    const value = this.priceInputTarget.value.replace(",", "");
 
-        if (price === 'NaN') { price = '0.00' }
+    let price = parseFloat(value)
+      .toFixed(2)
+      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
-        this.priceInputTarget.value = price
+    if (price === "NaN") {
+      price = "0.00";
     }
+
+    this.priceInputTarget.value = price;
+  }
 }
