@@ -4,7 +4,7 @@
 
 <div class="row mb-2">
   <div class="col">
-    <%= search_form_for @q, url: orders_path do |f| %>
+    <%= search_form_for @query, url: orders_path do |f| %>
       <%= f.search_field :number_cont, placeholder: "Search phrase..." %>
       <%= f.submit name: '', class: "btn btn-outline-secondary btn-sm mb-1 text-dark" %>
     <% end %>
@@ -28,11 +28,11 @@
 <table class="table align-middle">
   <thead>
   <tr>
-    <th scope="col"><%= sort_link(@q, :number, "Order Number",{}, { class: "link-dark" }) %></th>
-    <th scope="col"><%= sort_link(@q, :created_at, "Order Date",{}, { class: "link-dark" }) %></th>
-    <th scope="col"><%= sort_link(@q, :item_quantity, "Quantity",{}, { class: "link-dark" }) %></th>
-    <th scope="col"><%= sort_link(@q, :items_total, "Cost",{}, { class: "link-dark" }) %></th>
-    <th scope="col"><%= sort_link(@q, :status, "Status",{}, { class: "link-dark" }) %></th>
+    <th scope="col"><%= sort_link(@query, :number, "Order Number", { class: "link-dark" }) %></th>
+    <th scope="col"><%= sort_link(@query, :created_at, "Order Date", { class: "link-dark" }) %></th>
+    <th scope="col"><%= sort_link(@query, :item_quantity, "Quantity", { class: "link-dark" }) %></th>
+    <th scope="col"><%= sort_link(@query, :items_total, "Cost", { class: "link-dark" }) %></th>
+    <th scope="col"><%= sort_link(@query, :status, "Status", { class: "link-dark" }) %></th>
     <th scope="col"/>
   </tr>
   </thead>

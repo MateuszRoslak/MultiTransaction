@@ -13,23 +13,23 @@
     <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
       <li>
         <%= link_to orders_path, class:"dropdown-item" do %>
-          <h5><i class="bi bi-receipt"></i> Orders</h5>
+          <h6><i class="bi bi-receipt"></i> Orders</h6>
         <% end %>
       </li>
       <li>
         <%= link_to cards_path, class:"dropdown-item" do %>
-          <h5><i class="bi bi-credit-card"></i> Cards</h5>
+          <h6><i class="bi bi-credit-card"></i> Cards</h6>
         <% end %>
       </li>
       <li><hr class="dropdown-divider"></li>
       <li>
         <%= link_to edit_user_registration_path, class:"dropdown-item" do %>
-          <h5><i class="bi bi-gear"></i> Edit account</h5>
+          <h6><i class="bi bi-gear"></i> Edit account</h6>
         <% end %>
       </li>
       <li>
         <%= button_to destroy_user_session_path, method: :delete, class:"dropdown-item" do %>
-          <h5><i class="bi bi-box-arrow-left"></i> Sign out</h5>
+          <h6><i class="bi bi-box-arrow-left"></i> Sign out</h6>
         <% end %>
       </li>
     </ul>
