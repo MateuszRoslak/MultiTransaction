@@ -5,14 +5,14 @@ class CheckoutsController < ApplicationController
 
   def create
     Payments::StripePayment::CreateSession.new(user: current_user).call do |on|
-      on.success { |session| redirect_to session.url, status: 303, allow_other_host: true }
+      on.success { |session| redirect_to session.url, status: :see_other, allow_other_host: true }
       on.failure { |error| redirect_to cart_path, alert: error }
     end
   end
 
   def retry
     Payments::StripePayment::RetrySession.new(order: @order).call do |on|
-      on.success { |session| redirect_to session.url, status: 303, allow_other_host: true }
+      on.success { |session| redirect_to session.url, status: :see_other, allow_other_host: true }
       on.failure { |error| redirect_to orders_path, alert: error }
     end
   end

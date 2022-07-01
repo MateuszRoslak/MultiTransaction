@@ -31,7 +31,7 @@ module Payments
 
       def create_customer
         customer = @user.customers.find_by(processor: :stripe)
-        unless customer.present?
+        if customer.blank?
           stripe_customer = Stripe::Customer.create({ email: @user.email, name: user_name })
           customer = @user.customers.create!(processor: :stripe, processor_id: stripe_customer.id)
         end

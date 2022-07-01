@@ -1,6 +1,9 @@
+require:
+  - rubocop-rails
+
 AllCops:
   Exclude:
-    - "db/schema.rb"
+    - "db/**/*"
     - "config/**/*"
     - "node_modules/**/*"
     - "**/*.txt"

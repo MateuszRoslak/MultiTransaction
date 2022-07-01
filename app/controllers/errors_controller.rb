@@ -4,14 +4,14 @@ class ErrorsController < ApplicationController
   skip_before_action :authenticate_user!
 
   def unauthorized
-    render status: 401
+    render status: :unauthorized
   end
 
   def not_found
-    render status: 404
+    render status: :not_found
   end
 
   def internal_error
-    render status: 500
+    render status: :internal_server_error
   end
 end

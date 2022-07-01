@@ -19,7 +19,7 @@ class ProductsController < ApplicationController
     if line_item.save
       flash[:notice] = "Successfully added #{@product.name} to the cart!"
     else
-      flash[:alert] = 'The product is already in the cart'
+      flash[:alert] = "#{@product.name} is already in the cart"
     end
 
     redirect_to products_path

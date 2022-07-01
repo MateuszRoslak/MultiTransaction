@@ -2,7 +2,7 @@
 
 class CardsController < ApplicationController
   before_action :set_cards, only: [:index]
-  before_action :set_card, only: %i[show destroy]
+  before_action :set_card, only: %i[destroy]
 
   def index; end
 
@@ -11,7 +11,7 @@ class CardsController < ApplicationController
 
     respond_to do |format|
       if @card.save
-        format.html { redirect_to cards_path, notice: 'Card was successfully added' }
+        format.html { redirect_to cards_path, notice: "#{@card.name} was successfully added" }
       else
         format.turbo_stream
       end
