@@ -6,6 +6,6 @@ module ProductHelper
   end
 
   def format_timestamp_to_db(timestamp)
-    Time.at(timestamp).to_time.to_fs(:db)
+    Time.zone.at(timestamp).to_time.to_fs(:db)
   end
 end
