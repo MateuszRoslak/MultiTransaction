@@ -7,20 +7,20 @@
     <div class="card-body">
       <div class="field form-group">
         <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
       </div>
 
       <div class="field form-group">
         <%= f.label :password %>
-        <%= f.password_field :password, autocomplete: "current-password", class:"form-control" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
       </div>
 
       <div class="actions">
-        <%= f.submit "Log in", class:"btn btn-outline-secondary text-dark" %>
+        <%= f.submit "Log in", class: "btn btn-outline-secondary text-dark" %>
       </div>
 <% end %>
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to "Forgot your password?", new_password_path(resource_name), class:"btn btn-outline-secondary text-dark" %>
+  <%= link_to "Forgot your password?", new_password_path(resource_name), class: "btn btn-outline-secondary text-dark" %>
 <% end %>
 </div>
 </div>

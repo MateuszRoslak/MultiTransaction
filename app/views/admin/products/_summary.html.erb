@@ -1,0 +1,24 @@
+<div class="card" id="admin_products_summary">
+
+  <div class="card-header">Products</div>
+
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="row">
+        <dt class="col-sm-9">Products count:</dt>
+        <dd class="col-sm-2"><%= products.total_products %></dd>
+
+        <dt class="col-sm-9">Active:</dt>
+        <dd class="col-sm-2"><%= products.total_active_products %></dd>
+
+        <dt class="col-sm-9">Inactive:</dt>
+        <dd class="col-sm-2"><%= products.total_inactive_products %></dd>
+      </div>
+
+      <%= link_to new_admin_product_path, class: "btn btn-success", data: { turbo_frame: "remote_modal" } do %>
+        Add New Product <i class="bi bi-plus-circle-dotted"></i>
+      <% end %>
+    </div>
+  </div>
+
+</div>

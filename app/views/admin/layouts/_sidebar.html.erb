@@ -1,0 +1,16 @@
+<%= stylesheet_link_tag "admin/layouts/_sidebar", "data-turbo-track": "reload" %>
+
+<nav class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+  <%= link_to admin_products_path, class: 'nav-link text-white' do %>
+    <span class="fs-4"><i class="bi bi-code-slash"></i> Admin Panel</span>
+  <% end %>
+
+  <hr>
+  <ul class="nav flex-column mb-auto">
+    <li class="nav-item">
+      <%= link_to admin_products_path, class: 'nav-link' do %>
+        <i class="bi bi-grid"></i> Products
+      <% end %>
+    </li>
+  </ul>
+</nav>

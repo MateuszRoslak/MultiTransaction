@@ -13,7 +13,7 @@
         <p class="card-text">
           Price:
           <% if line_item.product_discount %>
-            <del><%= presenter.normal_price%></del>
+            <del><%= presenter.normal_price %></del>
             <span class="text-danger"><%= presenter.discount_price %></span>
             <span class="text-muted">( <%= presenter.card_type %> )</span>
           <% else %>

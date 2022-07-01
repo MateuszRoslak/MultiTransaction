@@ -13,13 +13,7 @@ class CardsController < ApplicationController
       if @card.save
         format.html { redirect_to cards_path, notice: 'Card was successfully added' }
       else
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "#{helpers.dom_id(@card)}_form",
-            partial: 'form',
-            locals: { card: @card }
-          )
-        end
+        format.turbo_stream
       end
     end
   end
