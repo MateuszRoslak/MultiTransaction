@@ -32,6 +32,8 @@ gem 'turbo-rails'
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
 
+gem 'bootstrap', '~> 5.1', '>= 5.1.3'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
@@ -58,6 +60,9 @@ gem 'sassc-rails'
 
 # Payments
 gem 'stripe'
+
+# Simple Roles library
+gem 'rolify'
 
 # Dry gems
 gem 'dry-matcher'

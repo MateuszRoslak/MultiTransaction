@@ -1,0 +1,27 @@
+<%= form_with model: [:admin, :product, product_discount], remote: true, data: { controller: 'fields' }, id: 'product_discount_form' do |f| %>
+
+  <%= render 'shared/error_messages_modal', resource: product_discount %>
+  <div class="row g-3 mb-2 align-items-center">
+
+    <div class="col-md-5 form-floating">
+      <%= f.select :card_type, ProductDiscount.card_types.map { |k, v| [k.upcase, v] }.to_h, { include_blank: true }, { class: "form-select" } %>
+      <%= f.label :card_type %>
+    </div>
+
+    <div class="col-md-5 form-floating">
+      <%= f.text_field :discount_price,
+                       class: "form-control",
+                       data: {
+                         action: 'focusout->fields#formatPrice',
+                         fields_target: 'priceInput',
+                       }
+      %>
+      <%= f.label :price %>
+    </div>
+
+    <div class="col-md-2 form-floating">
+      <%= f.submit "Save", class: "btn btn-success" %>
+    </div>
+
+  </div>
+<% end %>

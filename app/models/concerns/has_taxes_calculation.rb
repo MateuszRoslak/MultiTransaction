@@ -4,10 +4,6 @@ module HasTaxesCalculation
   extend ActiveSupport::Concern
   TAX_PERCENT = 23
 
-  included do
-    validates :tax_value, presence: true
-  end
-
   private
 
   def calculate_tax_value(gross_price)

@@ -1,0 +1,26 @@
+<div data-controller="admin--products" id="admin_products_list" class="table-responsive  my-5" style="height: 65%">
+
+  <table class="table table-hover align-middle">
+
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">Currency</th>
+      <th scope="col">Created</th>
+      <th scope="col">Updated</th>
+      <th scope="col">Active</th>
+      <th scope="col">Discounts</th>
+      <th scope="col"/>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% products.each do |product| %>
+      <%= render product %>
+    <% end %>
+    </tbody>
+
+  </table>
+</div>

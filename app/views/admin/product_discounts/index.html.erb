@@ -1,0 +1,5 @@
+<%= render "shared/remote_modal", title: "Product Discounts" do %>
+  <p>Product: <%= @product.name %></p>
+  <%= render 'form', product_discount: @product_discount %>
+  <%= render 'product_discounts_list', product: @product, product_discounts: @product_discounts %>
+<% end %>

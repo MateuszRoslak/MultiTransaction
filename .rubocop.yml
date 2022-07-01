@@ -4,7 +4,7 @@ AllCops:
     - "config/**/*"
     - "node_modules/**/*"
     - "**/*.txt"
-    - 'bin/*'
+    - "bin/*"
 
   NewCops: enable
 
