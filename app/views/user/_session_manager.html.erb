@@ -12,7 +12,7 @@
     </a>
     <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
       <li>
-        <%= link_to orders_path, class:"dropdown-item" do %>
+        <%= link_to orders_path(:per_page => 10), class:"dropdown-item" do %>
           <h6><i class="bi bi-receipt"></i> Orders</h6>
         <% end %>
       </li>
