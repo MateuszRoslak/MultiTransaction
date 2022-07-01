@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class CardsController < ApplicationController
-  before_action :set_cards, only: [:show]
-  before_action :set_card, only: %i[destroy]
+  before_action :set_cards, only: [:index]
+  before_action :set_card, only: %i[show destroy]
 
-  def show; end
+  def index; end
 
   def create
     @card = current_user.cards.new(card_params)

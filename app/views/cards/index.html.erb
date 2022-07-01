@@ -1,0 +1,14 @@
+<h1>Your cards</h1>
+<%= link_to new_card_path, class: "btn btn-success mb-3" do %>
+  <span>Add new card <i class="bi bi-plus-square"></i></span>
+<% end %>
+
+<% if @cards.exists? %>
+  <div class="row g-4 row-cols-auto">
+    <% @cards.each do |card| %>
+      <%= render 'card', card: card  %>
+    <% end %>
+  </div>
+<% else %>
+  <h3>You don't have any cards</h3>
+<% end %>

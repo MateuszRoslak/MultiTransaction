@@ -1,11 +1,38 @@
-<table class="table align-middle my-5">
+<%= stylesheet_link_tag "pagination/pagination", "data-turbo-track": "reload" %>
+
+<h1>Your orders</h1>
+
+<div class="row mb-2">
+  <div class="col">
+    <%= search_form_for @query, url: orders_path do |f| %>
+      <%= f.search_field :number_cont, placeholder: "Search phrase..." %>
+      <%= f.submit name: '', class: "btn btn-outline-secondary btn-sm mb-1 text-dark" %>
+    <% end %>
+  </div>
+  <div class="col">
+    <%= form_tag orders_path, :method => "get" do %>
+      <span>Orders per page:
+        <%= select_tag :per_page, options_for_select([5, 10, 20, 30], selected: params[:per_page] || 30), :class=>"select_box", :onchange => "this.form.submit()" %>
+    <% end %>
+    </span>
+
+  </div>
+</div>
+
+<div class="apple_pagination">
+  <div class="page_info">
+    <%= page_entries_info @orders %>
+  </div>
+</div>
+
+<table class="table align-middle">
   <thead>
   <tr>
-    <th scope="col">Order Number</th>
-    <th scope="col">Order Date</th>
-    <th scope="col">Quantity</th>
-    <th scope="col">Cost</th>
-    <th scope="col">Status</th>
+    <th scope="col"><%= sort_link(@query, :number, "Order Number", { class: "link-dark" }) %></th>
+    <th scope="col"><%= sort_link(@query, :created_at, "Order Date", { class: "link-dark" }) %></th>
+    <th scope="col"><%= sort_link(@query, :item_quantity, "Quantity", { class: "link-dark" }) %></th>
+    <th scope="col"><%= sort_link(@query, :items_total, "Cost", { class: "link-dark" }) %></th>
+    <th scope="col"><%= sort_link(@query, :status, "Status", { class: "link-dark" }) %></th>
     <th scope="col"/>
   </tr>
   </thead>
@@ -23,3 +50,7 @@
   <% end %>
   </tbody>
 </table>
+
+<div class="apple_pagination">
+  <%= will_paginate @orders, :container => false %>
+</div>

@@ -4,7 +4,10 @@ class OrdersController < ApplicationController
   before_action :set_orders, only: [:index]
   before_action :set_order, only: [:show]
 
-  def index; end
+  def index
+    @query = current_user.orders.ransack(params[:query])
+    @orders = @query.result(distinct: true).paginate(page: params[:page], per_page: params[:per_page])
+  end
 
   def show; end
 

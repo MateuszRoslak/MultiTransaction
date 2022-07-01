@@ -29,9 +29,13 @@
 
         </div>
         <% if checkout %>
-          <%= button_to "Go To Checkout", checkout_path, data: { turbo: false }, class: "btn btn-success" %>
+          <%= button_to checkout_path, data: { turbo: false }, class: "btn btn-success" do %>
+            <span>Go to checkout <i class="bi bi-cash-coin"></i> </span>
+          <% end %>
         <% else %>
-          <%= link_to "Show Summary", summary_cart_path, class: "btn btn-success" %>
+          <%= link_to summary_cart_path, class: "btn btn-success" do %>
+            <span> Show Summary <i class="bi bi-bag-check"></i> </span>
+          <% end %>
         <% end %>
       </div>
     <% end %>

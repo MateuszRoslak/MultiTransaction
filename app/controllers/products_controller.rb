@@ -6,7 +6,10 @@ class ProductsController < ApplicationController
   before_action :set_products, only: [:index]
   before_action :set_product, only: %i[show add_to_cart]
 
-  def index; end
+  def index
+    @query = Product.all.ransack(params[:query])
+    @products = @query.result(distinct: true).paginate(page: params[:page], per_page: params[:per_page])
+  end
 
   def show; end
 
